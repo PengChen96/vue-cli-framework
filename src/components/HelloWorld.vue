@@ -85,7 +85,7 @@
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                        Content
+                        <button v-on:click="gainData()">请求数据</button>
                     </Content>
                 </Layout>
             </Layout>
@@ -94,6 +94,15 @@
 </template>
 <script>
     export default {
-
+      name: 'helloWorld',
+      methods: {
+        gainData: function () {
+          // http://192.168.1.97:8002/wxapp/v1/install/college/list
+//          alert('1')
+          this.$http.post('wsmanagement/map/college/idAndNameForMap').then(response => {
+            console.log(response)
+          })
+        }
+      }
     }
 </script>
