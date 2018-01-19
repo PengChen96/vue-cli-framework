@@ -94,6 +94,7 @@
           </Breadcrumb>
           <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
             <button v-on:click="gainData()">请求数据</button>
+            <router-view></router-view>
           </Content>
         </Layout>
       </Layout>

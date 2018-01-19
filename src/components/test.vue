@@ -1,6 +1,6 @@
 <template>
     <div>
-        hello
+        {{params}}
     </div>
 </template>
 <script>
@@ -8,7 +8,7 @@
     name: '',
     data () {
       return {
-        a: ''
+        params: 'hello'
       }
     },
     beforeCreate: function () {
