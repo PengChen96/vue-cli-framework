@@ -76,6 +76,14 @@
                             <MenuItem name="3-1">Option 1</MenuItem>
                             <MenuItem name="3-2">Option 2</MenuItem>
                         </Submenu>
+                        <Submenu name="4">
+                          <template slot="title">
+                            <Icon type="ios-analytics"></Icon>
+                            Item 4
+                          </template>
+                          <MenuItem name="4-1">Option 1</MenuItem>
+                          <MenuItem name="4-2">Option 2</MenuItem>
+                        </Submenu>
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px'}">
@@ -98,8 +106,13 @@
       methods: {
         gainData: function () {
           // http://192.168.1.97:8002/wxapp/v1/install/college/list
-//          alert('1')
-          this.$http.post('wsmanagement/map/college/idAndNameForMap').then(response => {
+          // http://localhost:8001/wsmanagement/brand/find?begin=0&rows=20
+          let postData = {
+            begin: 0,
+            rows: 20,
+            sysStatus: 3
+          }
+          this.$http.post('wsmanagement/v1/machine/find/put', postData, {'emulateJSON': true, 'emulateHTTP': true}).then(response => {
             console.log(response)
           })
         }
