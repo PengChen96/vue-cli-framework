@@ -32,8 +32,8 @@
                 <Icon type="ios-navigate"></Icon>
                 Item 1
               </template>
-              <MenuItem name="1-1"><span v-on:click="a()">Option 1</span></MenuItem>
-              <MenuItem name="1-2" v-on:click="a()">Option 2</MenuItem>
+              <MenuItem name="1-1" v-on:click.native="route('/test')">Option 1</MenuItem>
+              <MenuItem name="1-2" v-on:click.native="route('/hello')">Option 2</MenuItem>
               <MenuItem name="1-3">Option 3</MenuItem>
               <MenuItem name="1-4">Option 4</MenuItem>
             </Submenu>
@@ -84,9 +84,8 @@
   export default {
     name: 'homePage',
     methods: {
-      a: function () {
-        alert('11')
-        this.$router.push('/hello')
+      route: function (urlPath) {
+        this.$router.push(urlPath)
       }
     }
   }
