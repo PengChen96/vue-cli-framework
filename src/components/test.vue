@@ -1,6 +1,9 @@
 <template>
     <div>
         {{params}}
+      <div style="width: 100px;height:1000px;background: bisque;">
+        1
+      </div>
     </div>
 </template>
 <script>
@@ -16,6 +19,11 @@
     },
     created: function () {
       console.log('------created------')
+      for (let i = 1; i <= 3; i++) {
+        setTimeout(function () {
+          console.log(i)
+        }, 0)
+      }
     },
     beforeMount: function () {
       console.log('------beforeMount------')

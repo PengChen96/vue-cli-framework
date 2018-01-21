@@ -1,27 +1,3 @@
-<style scoped>
-  .layout{
-    /*border: 1px solid #d7dde4;*/
-    background: #f5f7f9;
-    position: relative;
-    /*border-radius: 4px;*/
-    overflow: hidden;
-  }
-  .layout-logo{
-    width: 100px;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
-  }
-  .layout-nav{
-    width: 420px;
-    margin: 0 auto;
-    margin-right: 20px;
-  }
-</style>
 <template>
   <div class="layout">
     <Layout :style="{minHeight: '100vh'}">
@@ -56,9 +32,10 @@
                 <Icon type="ios-navigate"></Icon>
                 Item 1
               </template>
-              <MenuItem name="1-1">Option 1</MenuItem>
-              <MenuItem name="1-2">Option 2</MenuItem>
+              <MenuItem name="1-1"><span v-on:click="a()">Option 1</span></MenuItem>
+              <MenuItem name="1-2" v-on:click="a()">Option 2</MenuItem>
               <MenuItem name="1-3">Option 3</MenuItem>
+              <MenuItem name="1-4">Option 4</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
@@ -86,16 +63,18 @@
             </Submenu>
           </Menu>
         </Sider>
-        <Layout :style="{padding: '0 24px 24px'}">
-          <Breadcrumb :style="{margin: '24px 0'}">
+        <Layout :style="{padding: '0'}">
+          <Breadcrumb :style="{margin: '4px 12px'}">
             <BreadcrumbItem>Home</BreadcrumbItem>
             <BreadcrumbItem>Components</BreadcrumbItem>
             <BreadcrumbItem>Layout</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-            <button v-on:click="gainData()">请求数据</button>
+          <Content :style="{padding: '12px', height: '280px', background: '#fff'}">
             <router-view></router-view>
           </Content>
+          <div>
+            <p style="text-align: center;">Copyright©2014-2017 XXXX公司 版权所有 浙ICP备xxxxxx</p>
+          </div>
         </Layout>
       </Layout>
     </Layout>
@@ -105,18 +84,58 @@
   export default {
     name: 'homePage',
     methods: {
-      gainData: function () {
-        // http://192.168.1.97:8002/wxapp/v1/install/college/list
-        // http://localhost:8001/wsmanagement/brand/find?begin=0&rows=20
-        let postData = {
-          begin: 0,
-          rows: 20,
-          sysStatus: 3
-        }
-        this.$http.post('wsmanagement/v1/machine/find/put', postData, {'emulateJSON': true, 'emulateHTTP': true}).then(response => {
-          console.log(response)
-        })
+      a: function () {
+        alert('11')
+        this.$router.push('/hello')
       }
     }
   }
 </script>
+<style scoped>
+  .layout{
+    /*border: 1px solid #d7dde4;*/
+    background: #f5f7f9;
+    position: relative;
+    /*border-radius: 4px;*/
+    overflow: hidden;
+  }
+  .layout-logo{
+    width: 100px;
+    height: 30px;
+    background: #5b6270;
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
+  }
+  .layout-nav{
+    width: 420px;
+    margin: 0 auto;
+    margin-right: 20px;
+  }
+  .ivu-layout-content{
+    overflow-y: scroll;
+  }
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+  .ivu-layout-content::-webkit-scrollbar
+  {
+    width: 8px;
+    height: 8px;
+    background-color: #F5F5F5;
+  }
+  /*定义滚动条轨道 内阴影+圆角*/
+  .ivu-layout-content::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+  /*定义滑块 内阴影+圆角*/
+  .ivu-layout-content::-webkit-scrollbar-thumb
+  {
+    border-radius: 6px;
+    background-color: #888;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+  }
+</style>
