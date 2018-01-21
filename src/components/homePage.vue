@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <Layout :style="{minHeight: '100vh'}">
-      <Header>
+      <Header style="z-index: 1;">
         <Menu mode="horizontal" theme="dark" active-name="1">
           <div class="layout-logo"></div>
           <div class="layout-nav">
@@ -74,7 +74,7 @@
             <router-view></router-view>
           </Content>
           <div>
-            <p style="text-align: center;">Copyright©2014-2017 XXXX公司 版权所有 浙ICP备xxxxxx</p>
+            <p style="text-align: center;color:#999;">Copyright©2014-2017 XXXX公司 版权所有 浙ICP备xxxxxx</p>
           </div>
         </Layout>
       </Layout>
@@ -118,6 +118,12 @@
     width: 420px;
     margin: 0 auto;
     margin-right: 20px;
+  }
+  .ivu-layout-sider{
+    box-shadow: 0 0 1px 3px #eee;
+  }
+  .ivu-menu-vertical.ivu-menu-light:after{
+    width: 0;
   }
   .ivu-layout-content{
     overflow-y: scroll;
