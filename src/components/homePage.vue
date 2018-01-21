@@ -64,10 +64,11 @@
           </Menu>
         </Sider>
         <Layout :style="{padding: '0'}">
-          <Breadcrumb :style="{margin: '4px 12px'}">
-            <BreadcrumbItem>Home</BreadcrumbItem>
-            <BreadcrumbItem>Components</BreadcrumbItem>
-            <BreadcrumbItem>Layout</BreadcrumbItem>
+          <Breadcrumb :style="{margin: '4px 12px'}" >
+            <!--<BreadcrumbItem>Home</BreadcrumbItem>-->
+            <!--<BreadcrumbItem>Components</BreadcrumbItem>-->
+            <!--<BreadcrumbItem>Layout</BreadcrumbItem>-->
+            <BreadcrumbItem v-for="x in breadcrumb">{{x}}</BreadcrumbItem>
           </Breadcrumb>
           <Content :style="{padding: '12px', height: '280px', background: '#fff'}">
             <router-view></router-view>
@@ -83,6 +84,11 @@
 <script>
   export default {
     name: 'homePage',
+    data() {
+      return {
+        breadcrumb: ['Home','Components','Layout']    //面包屑导航
+      }
+    },
     methods: {
       route: function (urlPath) {
         this.$router.push(urlPath)
