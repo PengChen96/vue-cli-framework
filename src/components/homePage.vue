@@ -86,7 +86,7 @@
     name: 'homePage',
     data () {
       return {
-        breadcrumb: ['Home', 'Components', 'Layout']    // 面包屑导航
+        breadcrumb: ['账号管理', '权限管理']    // 面包屑导航
       }
     },
     methods: {
