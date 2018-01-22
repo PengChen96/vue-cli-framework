@@ -64,13 +64,13 @@
           </Menu>
         </Sider>
         <Layout :style="{padding: '0'}">
-          <Breadcrumb :style="{margin: '4px 12px'}" >
+          <Breadcrumb :style="{margin: '4px 24px'}" >
             <!--<BreadcrumbItem>Home</BreadcrumbItem>-->
             <!--<BreadcrumbItem>Components</BreadcrumbItem>-->
             <!--<BreadcrumbItem>Layout</BreadcrumbItem>-->
-            <BreadcrumbItem v-for="x in breadcrumb">{{x}}</BreadcrumbItem>
+            <BreadcrumbItem v-for="x in breadcrumb" v-bind:key="x">{{x}}</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '12px', height: '280px', background: '#fff'}">
+          <Content :style="{padding: '12px 24px', height: '280px', background: '#fff'}">
             <router-view></router-view>
           </Content>
           <div>
@@ -84,9 +84,9 @@
 <script>
   export default {
     name: 'homePage',
-    data() {
+    data () {
       return {
-        breadcrumb: ['Home','Components','Layout']    //面包屑导航
+        breadcrumb: ['Home', 'Components', 'Layout']    // 面包屑导航
       }
     },
     methods: {
