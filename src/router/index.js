@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Test from '@/components/test'
-import HelloWorld from '@/components/HelloWorld'
 import HomePage from '@/components/homePage'
+import AdminPermission from '@/components/project/adminPermission'
+// 例子
+import HomeExample from '@/components/homeExample'
+import Paging from '@/components/example/paging'
 
 Vue.use(Router)
 
@@ -10,18 +12,25 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'homepage',
       component: HomePage,
       children: [
         {
-          path: '/test',
-          name: 'test',
-          component: Test
-        },
+          path: '/adminPermission',
+          name: 'adminPermission',
+          component: AdminPermission
+        }
+      ]
+    },
+    { // 例子
+      path: '/example',
+      name: 'example',
+      component: HomeExample,
+      children: [
         {
-          path: '/hello',
-          name: 'HelloWorld',
-          component: HelloWorld
+          path: '/example/paging',
+          name: 'paging',
+          component: Paging
         }
       ]
     }

@@ -30,9 +30,9 @@
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
-                账号管理
+                小例子
               </template>
-              <MenuItem name="1-1" v-on:click.native="route('/adminPermission')">权限管理</MenuItem>
+              <MenuItem name="1-1" v-on:click.native="route('/example/paging')">分页</MenuItem>
               <MenuItem name="1-2">Option 2</MenuItem>
               <MenuItem name="1-3">Option 3</MenuItem>
               <MenuItem name="1-4">Option 4</MenuItem>
