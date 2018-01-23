@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/components/homePage'
-import AdminPermission from '@/components/project/adminPermission'
+import AdminPermission from '@/components/project/adminSystem/adminPermission'
+import RoleConfig from '@/components/project/adminSystem/roleConfig'
 // 例子
 import HomeExample from '@/components/homeExample'
 import Paging from '@/components/example/paging'
@@ -19,6 +20,11 @@ export default new Router({
           path: '/adminPermission',
           name: 'adminPermission',
           component: AdminPermission
+        },
+        {
+          path: '/roleConfig',
+          name: 'roleConfig',
+          component: RoleConfig
         }
       ]
     },

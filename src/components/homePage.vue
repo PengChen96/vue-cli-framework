@@ -26,14 +26,14 @@
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="breadRoute">
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
                 账号管理
               </template>
-              <MenuItem name="1-1" v-on:click.native="route('/adminPermission')">权限管理</MenuItem>
-              <MenuItem name="1-2">Option 2</MenuItem>
+              <MenuItem name="账号管理/权限管理" @click.native="route('/adminPermission')">权限管理</MenuItem>
+              <MenuItem name="账号管理/角色配置" @click.native="route('/roleConfig')">角色配置</MenuItem>
               <MenuItem name="1-3">Option 3</MenuItem>
               <MenuItem name="1-4">Option 4</MenuItem>
             </Submenu>
@@ -86,12 +86,15 @@
     name: 'homePage',
     data () {
       return {
-        breadcrumb: ['账号管理', '权限管理']    // 面包屑导航
+        breadcrumb: ['清衣舍管理后台']    // 面包屑导航
       }
     },
     methods: {
       route: function (urlPath) {
         this.$router.push(urlPath)
+      },
+      breadRoute: function (name) {
+        this.breadcrumb = name.split('/')
       }
     }
   }
