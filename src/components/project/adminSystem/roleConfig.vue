@@ -30,49 +30,106 @@
           :loading="addLoading"
           @on-ok="addOk"
           @on-cancel="addCancel">
-          <Form :model="addFormItem" :label-width="80">
+          <Form :model="addFormItem" :label-width="40">
             <FormItem label="名称">
-              <Input v-model="addFormItem.no" placeholder="请输入内容..."></Input>
-            </FormItem>
-            <template>
-              <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
-                <Checkbox
-                  :indeterminate="indeterminate"
-                  :value="checkAll"
-                  @click.prevent.native="handleCheckAll">数据字典</Checkbox>
-              </div>
-              <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-                <Checkbox label="香蕉"></Checkbox>
-                <Checkbox label="苹果"></Checkbox>
-                <Checkbox label="西瓜"></Checkbox>
-                <Checkbox label="1"></Checkbox>
-                <Checkbox label="2"></Checkbox>
-                <Checkbox label="3"></Checkbox>
-              </CheckboxGroup>
-            </template>
-            <FormItem label="权限名称">
               <Input v-model="addFormItem.name" placeholder="请输入内容..."></Input>
             </FormItem>
+            <div class="allCheckItem" v-for="x in parentRoles">
+              <template>
+                <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange" >
+                  <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
+                    <Checkbox
+                      :label="x.id"
+                      @click.prevent.native="handleCheckAll(x.id)">{{x.id}}{{x.name}}</Checkbox>
+                  </div>
+                  <div class="checkItem" v-for="c in gainChildrenRoles(x.id)" :key="c.id">
+                    <Checkbox :label="c.id">
+                      {{c.id}}{{c.name}}
+                    </Checkbox>
+                  </div>
+                </CheckboxGroup>
+              </template>
+            </div>
             <FormItem label="备注">
               <Input v-model="addFormItem.remark" placeholder="请输入内容..."></Input>
             </FormItem>
           </Form>
         </Modal>
       </template>
+      <!--修改-->
+      <template>
+        <Modal
+          v-model="modifyModalShow"
+          title="修改权限"
+          :loading="modifyLoading"
+          @on-ok="modifyOk"
+          @on-cancel="modifyCancel">
+          <Form :model="modifyFormItem" :label-width="40">
+            <FormItem label="名称">
+              <Input v-model="modifyFormItem.name" placeholder="请输入内容..."></Input>
+            </FormItem>
+            <div class="allCheckItem" v-for="x in parentRoles">
+              <template>
+                <CheckboxGroup v-model="checkAllGroupModify" @on-change="checkAllGroupChange" >
+                  <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
+                    <Checkbox
+                      :label="x.id"
+                      @click.prevent.native="handleCheckAllModify(x.id)">{{x.id}}{{x.name}}</Checkbox>
+                  </div>
+                  <div class="checkItem" v-for="c in gainChildrenRoles(x.id)" :key="c.id">
+                    <Checkbox :label="c.id">
+                      {{c.id}}{{c.name}}
+                    </Checkbox>
+                  </div>
+                </CheckboxGroup>
+              </template>
+            </div>
+            <FormItem label="备注">
+              <Input v-model="modifyFormItem.remark" placeholder="请输入内容..."></Input>
+            </FormItem>
+          </Form>
+        </Modal>
+      </template>
+      <!--删除-->
+      <template>
+        <Modal v-model="deleteModalShow" width="360">
+          <p slot="header" style="color:#f60;text-align:center">
+            <Icon type="information-circled"></Icon>
+            <span>删除确认</span>
+          </p>
+          <div style="text-align:center">
+            <p>此任务删除后，可能会出现权限问题。</p>
+            <p>是否继续删除？</p>
+          </div>
+          <div slot="footer">
+            <Button type="error" size="large" @click="deleteOk()" long>删除</Button>
+          </div>
+        </Modal>
+      </template>
     </div>
 </template>
 <script>
+  import { checkIsValueInArr, wipeOffRepeatValueByArr, ArrayToString } from '../../../util/array'
   export default {
     name: '',
     data () {
       return {
+        // 多选框 新增的
+        checkAllGroup: [], // 全部选中的值（数组）
         addModalShow: false,
         addLoading: true,
         addFormItem: {},
-        // 多选框
-        indeterminate: true,
-        checkAll: false,
-        checkAllGroup: ['香蕉', '西瓜'],
+        // 多选框 修改的
+        checkAllGroupModify: [], // 全部选中的值（数组）
+        modifyModalShow: false,
+        modifyLoading: true,
+        modifyFormItem: {},
+        deleteModalShow: false,
+        deleteId: null,   // deleteById
+
+        // 权限列表
+        parentRoles: [],
+        childrenRoles: [],
         // 已下列表分页
         pageSize: 20, // 每页显示20条数据
         currentPage: 1, // 当前页码
@@ -98,7 +155,14 @@
                   },
                   on: {
                     click: () => {
-                      console.log('修改')
+                      console.log(params)
+                      this.modifyFormItem = {
+                        id: params.row.id,
+                        name: params.row.name,
+                        remark: params.row.remark
+                      }
+                      this.checkAllGroupModify = params.row.permission.split(',')
+                      this.modifyModalShow = true
                     }
                   }
                 }, '修改'),
@@ -109,7 +173,8 @@
                   },
                   on: {
                     click: () => {
-                      console.log('删除')
+                      this.deleteId = params.row.id
+                      this.deleteModalShow = true
                     }
                   }
                 }, '删除')
@@ -122,6 +187,24 @@
     created: function () {
       // 请求第一页数据
       this.getList()
+    },
+    mounted: function () {
+      let url = '/wsmanagement/map/permission'
+      this.$http.post(url, {'emulateJSON': true, 'emulateHTTP': true})
+        .then(({body}) => {
+          console.log(body.object)
+          let rolesArr = body.object
+          let self = this
+          rolesArr.forEach(function (item, index) {
+            if (item.parentId === '0') {
+              self.parentRoles.push(item)
+            } else {
+              self.childrenRoles.push(item)
+            }
+          })
+          console.log(this.parentRoles)
+          console.log(this.childrenRoles)
+        })
     },
     methods: {
       // 获取数据
@@ -148,44 +231,137 @@
         this.currentPage = page
         this.getList()
       },
+      // 获取父权限对应的子权限的对象数组(通过父权限Id)
+      gainChildrenRoles (id) {
+        let childrenRoles = []
+        this.childrenRoles.forEach(function (item, index) {
+          if (item.parentId === id) {
+            childrenRoles.push(item)
+          }
+        })
+        return childrenRoles
+      },
       addOk () {
-        this.$Message.success('成功')
+        this.addLoading = false
+        this.$nextTick(() => { this.addLoading = true })
+        // 上面代码防止点击后按钮出现loading, 解决点击后就不能再点击
+        let url = '/wsmanagement/admin/role/save'
+        this.addFormItem.permission = ArrayToString(this.checkAllGroup)
+        let postData = this.addFormItem
+        this.$http.post(url, JSON.stringify(postData), {'emulateJSON': true, 'emulateHTTP': true})
+          .then(({body}) => {
+            console.log(body)
+            if (body.status === 'success') {
+              this.addModalShow = false
+              this.addFormItem = {}  // 初始化
+              this.checkAllGroup = []  // 初始化
+              this.$Message.success('添加成功')
+              this.getList()  // 重新查询
+            } else {
+              this.$Message.error(body.message)
+            }
+          })
       },
       addCancel () {
         this.$Message.info('取消添加')
       },
-      handleCheckAll () {
-        if (this.indeterminate) {
-          this.checkAll = false
+      handleCheckAll (id) {  // 父权限Id  全选，取消全选（新增）
+        console.log(id)
+        let objArr = this.gainChildrenRoles(id)  // 对象数组
+        console.log(objArr)
+        let checkAllArr = objArr.map(function (item, index, arr) {
+          return item.id
+        })
+        checkAllArr.unshift(id)  // 将id也存入数组（也就是勾选）
+        //
+        let returnObj = checkIsValueInArr(id, this.checkAllGroup)
+        console.log(returnObj)
+        if (returnObj.isExist) {
+          console.log('去除勾选')
+          this.checkAllGroup = wipeOffRepeatValueByArr(this.checkAllGroup, checkAllArr)
+          console.log(this.checkAllGroup)
         } else {
-          this.checkAll = !this.checkAll
-        }
-        this.indeterminate = false
-
-        if (this.checkAll) {
-          this.checkAllGroup = ['香蕉', '苹果', '西瓜']
-        } else {
-          this.checkAllGroup = []
+          this.checkAllGroup = this.checkAllGroup.concat(checkAllArr)
+          console.log(this.checkAllGroup)
         }
       },
-      checkAllGroupChange (data) {
-        if (data.length === 3) {
-          this.indeterminate = false
-          this.checkAll = true
-        } else if (data.length > 0) {
-          this.indeterminate = true
-          this.checkAll = false
+      checkAllGroupChange (data) {  // 选择子的单个框的时候触发的
+        console.log(data)
+      },
+      modifyOk () {
+        this.addLoading = false
+        this.$nextTick(() => { this.addLoading = true })
+        // 上面代码防止点击后按钮出现loading, 解决点击后就不能再点击
+        let url = '/wsmanagement/admin/role/editById'
+        this.modifyFormItem.permission = ArrayToString(this.checkAllGroupModify)
+        let postData = this.modifyFormItem
+        console.log(postData)
+        this.$http.post(url, JSON.stringify(postData), {'emulateJSON': true, 'emulateHTTP': true})
+          .then(({body}) => {
+            console.log(body)
+            if (body.status === 'success') {
+              this.modifyModalShow = false
+              this.modifyFormItem = {}  // 初始化
+              this.checkAllGroupModify = []  // 初始化
+              this.$Message.success('修改成功')
+              this.getList()  // 重新查询
+            } else {
+              this.$Message.error(body.message)
+            }
+          })
+      },
+      modifyCancel () {
+        this.$Message.info('取消修改')
+      },
+      handleCheckAllModify (id) {  // 父权限Id  全选，取消全选（修改）
+        console.log(id)
+        let objArr = this.gainChildrenRoles(id)  // 对象数组
+        console.log(objArr)
+        let checkAllArr = objArr.map(function (item, index, arr) {
+          return item.id
+        })
+        checkAllArr.unshift(id)  // 将id也存入数组（也就是勾选）
+        //
+        let returnObj = checkIsValueInArr(id, this.checkAllGroupModify)
+        console.log(returnObj)
+        if (returnObj.isExist) {
+          console.log('去除勾选')
+          this.checkAllGroupModify = wipeOffRepeatValueByArr(this.checkAllGroupModify, checkAllArr)
+          console.log(this.checkAllGroupModify)
         } else {
-          this.indeterminate = false
-          this.checkAll = false
+          this.checkAllGroupModify = this.checkAllGroupModify.concat(checkAllArr)
+          console.log(this.checkAllGroupModify)
         }
+      },
+      deleteOk () {
+        let url = '/wsmanagement/admin/role/deleteById'
+        let postData = {
+          id: this.deleteId
+        }
+        this.$http.post(url, postData, {'emulateJSON': true, 'emulateHTTP': true})
+          .then(({body}) => {
+            console.log(body)
+            if (body.status === 'success') {
+              this.deleteModalShow = false
+              this.$Message.success('删除成功')
+              this.getList()  // 重新查询
+            } else {
+              this.$Message.error('删除失败')
+            }
+          })
       }
-    },
-    beforeDestory: function () {
-      console.log('------beforeDestory------')
-    },
-    destoryed: function () {
-      console.log('------destoryed------')
     }
   }
 </script>
+<style scoped>
+  .allCheckItem{
+    border: 1px solid #eee;
+    padding: 4px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+  .checkItem{
+    display: inline-flex;
+    width:33.3%;
+  }
+</style>
