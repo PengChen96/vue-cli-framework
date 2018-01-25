@@ -30,28 +30,25 @@
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
-                账号管理
+                首页
               </template>
-              <MenuItem name="账号管理/权限管理" @click.native="route('/adminPermission')">权限管理</MenuItem>
-              <MenuItem name="账号管理/角色配置" @click.native="route('/roleConfig')">角色配置</MenuItem>
-              <MenuItem name="1-3">Option 3</MenuItem>
-              <MenuItem name="1-4">Option 4</MenuItem>
+              <MenuItem name="首页" @click.native="route('/')">首页</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
-                <Icon type="ios-keypad"></Icon>
-                Item 2
+                <Icon type="ios-navigate"></Icon>
+                账号管理
               </template>
-              <MenuItem name="2-1">Option 1</MenuItem>
-              <MenuItem name="2-2">Option 2</MenuItem>
+              <MenuItem name="账号管理/账号列表" @click.native="route('/adminUserList')">账号列表</MenuItem>
+              <MenuItem name="账号管理/权限管理" @click.native="route('/adminPermission')">权限管理</MenuItem>
+              <MenuItem name="账号管理/角色配置" @click.native="route('/roleConfig')">角色配置</MenuItem>
             </Submenu>
             <Submenu name="3">
               <template slot="title">
                 <Icon type="ios-analytics"></Icon>
-                Item 3
+                数据统计
               </template>
-              <MenuItem name="3-1">Option 1</MenuItem>
-              <MenuItem name="3-2">Option 2</MenuItem>
+              <MenuItem name="数据统计/充值升级记录" @click.native="route('/rechargeOrder')">充值/升级记录</MenuItem>
             </Submenu>
             <Submenu name="4">
               <template slot="title">

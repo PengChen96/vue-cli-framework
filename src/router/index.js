@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/components/homePage'
+import Welcome from '@/components/project/welcome'
+import AdminUserList from '@/components/project/adminSystem/adminUserList'
 import AdminPermission from '@/components/project/adminSystem/adminPermission'
 import RoleConfig from '@/components/project/adminSystem/roleConfig'
+import RechargeOrder from '@/components/project/dataManage/rechargeOrder'
 // 例子
 import HomeExample from '@/components/homeExample'
 import Paging from '@/components/example/paging'
@@ -13,9 +16,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'homepage',
       component: HomePage,
       children: [
+        {
+          path: '/',
+          name: 'welcome',
+          component: Welcome
+        },
+        {
+          path: '/adminUserList',
+          name: 'adminUserList',
+          component: AdminUserList
+        },
         {
           path: '/adminPermission',
           name: 'adminPermission',
@@ -25,6 +37,11 @@ export default new Router({
           path: '/roleConfig',
           name: 'roleConfig',
           component: RoleConfig
+        },
+        {
+          path: '/rechargeOrder',
+          name: 'rechargeOrder',
+          component: RechargeOrder
         }
       ]
     },

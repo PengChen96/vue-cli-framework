@@ -21,6 +21,12 @@
           <Page :total="count" :page-size='pageSize' @on-change="pageChange" show-total show-elevator></Page>
         </div>
       </template>
+      <template v-if="!count">
+        <Alert show-icon>
+          没有搜索到数据！
+          <template slot="desc">哎呀，数据藏到哪里去了呢？大家赶快去找一找呀！</template>
+        </Alert>
+      </template>
     </div>
     <!--modal-->
     <!--新增-->
@@ -213,7 +219,7 @@
       // 获取数据
       getList () {
         this.loading = true  // 打开列表数据加载中动画
-        // 模拟
+        //
         let url = '/wsmanagement/admin/permission/find'
         let postData = {
           begin: this.pageSize * (this.currentPage - 1),
