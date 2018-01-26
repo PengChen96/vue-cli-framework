@@ -1,139 +1,127 @@
 <template>
-    <div>
-        <!--搜索-->
-        <div style="margin: 12px 0;">
-            <template>
-                <Row>
-                    <Col span="24" style="display: flex;justify-content: flex-end;">
-                    <Button type="primary" @click="addModalShow = true" style="margin-left: 12px;">新增</Button>
-                    <Button type="primary" icon="ios-search" @click="getList()" style="margin-left: 12px;">搜索</Button>
-                    </Col>
-                </Row>
-            </template>
-        </div>
-        <!--表格-->
-        <div class="list">
-            <template v-if="count">
-                <!--table列表-->
-                <Table :loading="loading" :columns="columnsTitle" :data="columnsItems" stripe></Table>
-                <!--分页-->
-                <div style="display: flex; justify-content: flex-end;margin: 12px 0;">
-                    <Page :total="count" :page-size='pageSize' @on-change="pageChange" show-total show-elevator></Page>
-                </div>
-            </template>
-        </div>
-        <!--新增-->
-        <template>
-            <Modal
-                    v-model="addModalShow"
-                    title="添加"
-                    :loading="addLoading"
-                    @on-ok="addOk"
-                    @on-cancel="addCancel">
-                <Form :model="addFormItem" :label-width="80">
-                    <FormItem label="xxx">
-                        <Input v-model="addFormItem.no" placeholder="请输入内容..."></Input>
-                    </FormItem>
-                </Form>
-            </Modal>
-        </template>
-    </div>
+  <div>
+    <div id="main" style="width: 100%;height: 600px;"></div>
+  </div>
 </template>
 <script>
+  import echarts from 'echarts'
   export default {
     name: '',
     data () {
       return {
-        addModalShow: false,
-        addLoading: true,
-        addFormItem: {},
-        // 已下列表分页
-        pageSize: 20, // 每页显示20条数据
-        currentPage: 1, // 当前页码
-        count: 0,  // 总记录数
-        loading: false,   // 列表数据加载中
-        columnsItems: [], // 列表数据
-        columnsTitle: [   // 列表标题
-          {title: '序号', type: 'index', align: 'center'},
-          {title: '名称', key: 'name', align: 'center'},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      console.log('修改')
-                    }
-                  }
-                }, '修改'),
-                h('Button', {
-                  props: {
-                    type: 'error',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      console.log('删除')
-                    }
-                  }
-                }, '删除')
-              ])
-            }
-          } // 按钮
-        ]
+        charts: ''
       }
     },
-    created: function () {
-      // 请求第一页数据
-      this.getList()
+    mounted () {
+      this.$nextTick(function () {
+        this.drawPie('main')
+      })
     },
     methods: {
-      // 获取数据
-      getList () {
-        this.loading = true  // 打开列表数据加载中动画
-        //
-        let url = '/wsmanagement/admin/account/find'
-        let postData = {
-          begin: this.pageSize * (this.currentPage - 1),
-          rows: this.pageSize
-        }
-        this.$http.post(url, postData, {'emulateJSON': true, 'emulateHTTP': true})
-          .then(({body}) => {
-            // 子组件监听到count变化会自动更新DOM
-            console.log(body)
-            this.count = body.count   // 列表数据总条数
-            this.columnsItems = body.content   // 列表数据内容
-            this.loading = false  // 关闭列表数据加载中动画
-          })
-      },
-      // 从page组件传递过来的当前page
-      pageChange (page) {
-        console.log('当前页码：' + page)
-        this.currentPage = page
-        this.getList()
-      },
-      addOk () {
-        // this.addLoading = false
-        // this.(() => { this.addLoading = true })
-        // 上面代码防止点击后按钮出现loading, 解决点击后就不能再点击
-        // 下面代码成功之后做的操作
-        this.addModalShow = false
-        this.addFormItem = {}  // 初始化
-        this.$Message.success('添加成功')
-        this.getList()  // 重新查询
-      },
-      addCancel () {
-        this.$Message.info('取消添加')
+      drawPie (id) {
+        let lastWeek = ['上周一', '上周二', '上周三', '上周四', '上周五', '上周六', '上周日']
+        let thisWeek = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        let colors = ['#5793f3', '#d14a61', '#675bba']
+        this.charts = echarts.init(document.getElementById(id))
+        this.charts.setOption({
+          color: colors,
+          title: {
+            text: '本周收益总额：100',
+            textStyle: {
+              color: colors[1]
+            },
+            subtext: '上周收益总额：66',
+            subtextStyle: {
+              color: colors[0]
+            }
+          },
+          tooltip: {
+            trigger: 'none',
+            axisPointer: {
+              type: 'cross'
+            }
+          },
+          legend: {
+            data: ['上周收益', '本周收益']
+          },
+          grid: {
+            top: 70,
+            bottom: 50
+          },
+          toolbox: {
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none'
+              },
+              dataView: {readOnly: false},
+              magicType: {type: ['bar', 'stack', 'tiled']},
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          xAxis: [
+            {
+              type: 'category',
+              axisTick: {
+                alignWithLabel: true
+              },
+              axisLine: {
+                onZero: false,
+                lineStyle: {
+                  color: colors[1]
+                }
+              },
+              axisPointer: {
+                label: {
+                  formatter: function (params) {
+                    return '本周收益  ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                  }
+                }
+              },
+              data: thisWeek
+            },
+            {
+              type: 'category',
+              axisTick: {
+                alignWithLabel: true
+              },
+              axisLine: {
+                onZero: false,
+                lineStyle: {
+                  color: colors[0]
+                }
+              },
+              axisPointer: {
+                label: {
+                  formatter: function (params) {
+                    return '上周收益  ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                  }
+                }
+              },
+              data: lastWeek
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '上周收益',
+              type: 'line',
+              xAxisIndex: 1,
+              smooth: true,
+              data: [2.6, 5.9, 9.0, 6.4, 8.8, 6.0, 2.3]
+            },
+            {
+              name: '本周收益',
+              type: 'line',
+              smooth: true,
+              data: [3.9, 5.9, 6.6, 5.4, 8.4, 10.3, 0.7]
+            }
+          ]
+        })
       }
     }
   }

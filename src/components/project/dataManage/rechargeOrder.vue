@@ -179,12 +179,20 @@
         console.log(postData)
         this.$http.post(url, postData, {'emulateJSON': true, 'emulateHTTP': true})
           .then(({body}) => {
-            // 子组件监听到count变化会自动更新DOM
             console.log(body)
+            let result = body.content
+            result.map(function (item, index, arr) {
+              let allPurpose = ['', '常规充值', '活动充值', '升级尊享卡']
+              item.purpose = allPurpose[item.purpose]
+              let allMethod = ['', '支付宝', '微信', '网银']
+              item.method = allMethod[item.method]
+              let allStatus = ['', '常规充值', '活动充值', '升级尊享卡']
+              item.status = allStatus[item.status]
+            })
             this.$refs.table.exportCsv({
               filename: '充值升级记录.csv',
               columns: this.columnsTitle,
-              data: body.content
+              data: result
             })
           })
       }

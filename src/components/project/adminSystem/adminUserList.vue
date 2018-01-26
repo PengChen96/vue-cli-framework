@@ -78,7 +78,7 @@
     </div>
 </template>
 <script>
-  import { getCollegeList } from '../../../api/commonApi'
+  import { getCollegeList, getRoleList } from '../../../api/commonApi'
   export default {
     name: '',
     data () {
@@ -86,6 +86,7 @@
         radioVal: '0',
         formItem: {},  // 搜索条件
         collegeList: [], // 学校列表
+        roleList: [], // 角色列表
         //
         addModalShow: false,
         addLoading: true,
@@ -98,7 +99,46 @@
         columnsItems: [], // 列表数据
         columnsTitle: [   // 列表标题
           {title: '序号', type: 'index', align: 'center'},
-          {title: '名称', key: 'name', align: 'center'},
+          {title: '账户名', key: 'account', align: 'center'},
+          { title: '账户类型',
+            key: 'type',
+            align: 'center',
+            render: (h, params) => {
+              let allType = ['', '佰米账户', '学校运营商账户', '洗衣机供应商账户']
+              return allType[params.row.type]
+            }
+          },
+          { title: '角色类型',
+            key: 'roleId',
+            align: 'center',
+            render: (h, params) => {
+              let len = this.roleList.length
+              for (let i = 0; i < len; i++) {
+                if (this.roleList[i].id === params.row.roleId) {
+                  return this.roleList[i].name
+                }
+              }
+            }
+          },
+          { title: '商户名称',
+            key: 'customer',
+            align: 'center',
+            render: (h, params) => {
+              if (params.row.customer) {
+                return params.row.customer.name
+              }
+            }
+          },
+          { title: '绑定学校列表',
+            key: 'college',
+            align: 'center',
+            render: (h, params) => {
+              if (params.row.college) {
+                return params.row.college.name
+              }
+            }
+          },
+          {title: '备注信息', key: 'remark', align: 'center'},
           { title: '操作',
             key: 'action',
             align: 'center',
@@ -143,6 +183,10 @@
       getCollegeList().then(body => {
         console.log(body)
         this.collegeList = body.object
+      })
+      getRoleList().then(body => {
+        console.log(body)
+        this.roleList = body.object
       })
     },
     methods: {
