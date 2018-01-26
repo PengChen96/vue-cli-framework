@@ -9,6 +9,7 @@ import RechargeOrder from '@/components/project/dataManage/rechargeOrder'
 // 例子
 import HomeExample from '@/components/homeExample'
 import Paging from '@/components/example/paging'
+import ExportCsv from '@/components/example/exportCsv'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ export default new Router({
           path: '/example/paging',
           name: 'paging',
           component: Paging
+        },
+        {
+          path: '/example/exportCsv',
+          name: 'exportCsv',
+          component: ExportCsv
         }
       ]
     }

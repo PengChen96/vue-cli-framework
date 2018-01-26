@@ -26,40 +26,14 @@
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="breadRoute">
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
                 小例子
               </template>
-              <MenuItem name="1-1" v-on:click.native="route('/example/paging')">分页</MenuItem>
-              <MenuItem name="1-2">Option 2</MenuItem>
-              <MenuItem name="1-3">Option 3</MenuItem>
-              <MenuItem name="1-4">Option 4</MenuItem>
-            </Submenu>
-            <Submenu name="2">
-              <template slot="title">
-                <Icon type="ios-keypad"></Icon>
-                Item 2
-              </template>
-              <MenuItem name="2-1">Option 1</MenuItem>
-              <MenuItem name="2-2">Option 2</MenuItem>
-            </Submenu>
-            <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Item 3
-              </template>
-              <MenuItem name="3-1">Option 1</MenuItem>
-              <MenuItem name="3-2">Option 2</MenuItem>
-            </Submenu>
-            <Submenu name="4">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Item 4
-              </template>
-              <MenuItem name="4-1">Option 1</MenuItem>
-              <MenuItem name="4-2">Option 2</MenuItem>
+              <MenuItem name="小例子/分页" @click.native="route('/example/paging')">分页</MenuItem>
+              <MenuItem name="小例子/导出Csv" @click.native="route('/example/exportCsv')">导出Csv</MenuItem>
             </Submenu>
           </Menu>
         </Sider>
@@ -86,12 +60,15 @@
     name: 'homePage',
     data () {
       return {
-        breadcrumb: ['Home', 'Components', 'Layout']    // 面包屑导航
+        breadcrumb: ['小例子']    // 面包屑导航
       }
     },
     methods: {
       route: function (urlPath) {
         this.$router.push(urlPath)
+      },
+      breadRoute: function (name) {
+        this.breadcrumb = name.split('/')
       }
     }
   }

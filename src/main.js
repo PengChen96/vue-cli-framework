@@ -6,11 +6,17 @@ import router from './router'
 import VueResource from 'vue-resource'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import Highlight from './util/c-hightlight.js'
+
 
 Vue.use(VueResource)
 Vue.use(iView)
+Vue.use(Highlight)
 
 Vue.config.productionTip = false
+
+
+
 
 /* eslint-disable no-new */
 new Vue({
