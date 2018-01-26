@@ -47,6 +47,7 @@ exports.cssLoaders = function (options) {
     if (options.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,
+        publicPath: '../../',   // fonts 路径不对问题
         fallback: 'vue-style-loader'
       })
     } else {
