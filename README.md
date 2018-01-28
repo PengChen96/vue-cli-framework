@@ -1,6 +1,8 @@
 # vue project
 
 > A Vue.js project
+[文档说明](https://github.com/PengChen96/vue-cli-framework/edit/master/read.md)
+
 
 ## Build Setup
 
