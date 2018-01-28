@@ -1,13 +1,13 @@
 
 ### 后台管理
-基于Vue.js 2.x系列 + iview UI 的后台管理系统
+基于Vue.js 2.x系列 + iView UI 的后台管理系统
 
 ## 功能 ##
 - [x] iView UI
 - [x] 表格
 - [x] 表单
 - [x] 导出Csv
-- [x] 图表 :line_chart:
+- [x] 图表 :bar_chart:
 
 
 ## 目录结构介绍 ##
