@@ -50,6 +50,17 @@
 ## 组件使用说明 ##
 
 ### 1. 表格分页 ###
+#### 关键 ####
+```JavaScript
+  // columns: 列表标题；  格式：[{title: '序号', type: 'index'}, {title: '名称', key: 'name'}]
+  // data: 列表数据       格式：[{name: '啦啦啦'}]
+  <Table stripe :columns="columnsTitle" :data="columnsItems"></Table>
+  // total: 列表总条数
+  // page-size: 一页多少条数据
+  // @on-change：页码改变的回调，返回改变后的页码
+  <Page :total="count" :page-size='pageSize' @on-change="pageChange" show-total show-elevator></Page>
+```
+#### 代码 ####
 ```JavaScript
 <template>
     <div class="list">
