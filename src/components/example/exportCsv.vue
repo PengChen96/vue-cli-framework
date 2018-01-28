@@ -28,7 +28,6 @@
       </pre>
     </p>
   </div>
-
 </template>
 <script>
   import ExportCsv from '../common/exportCsvComponent.vue'

@@ -3,11 +3,8 @@
  */
 
 import Hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css'
-// import 'highlight.js/styles/atelier-seaside-light.css'
-// import 'highlight.js/styles/atom-one-light.css'
-// import 'highlight.js/styles/tomorrow-night.css'
-// import 'highlight.js/styles/default.css'
+// import 'highlight.js/styles/monokai-sublime.css'
+import 'highlight.js/styles/atom-one-dark.css'
 
 let Highlight = {}
 Highlight.install = function (Vue, options) {
