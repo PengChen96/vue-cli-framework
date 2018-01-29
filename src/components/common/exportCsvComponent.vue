@@ -1,7 +1,7 @@
 <template>
   <div>
     <Table v-show="false" ref="table"></Table>
-    <Button type="success" @click="exportExcel()" style="margin-left: 12px;">导出EXcel</Button>
+    <Button :type="btnType" @click="exportExcel()" :style="styleObj">导出Excel</Button>
   </div>
 </template>
 <script>
@@ -17,12 +17,22 @@
       fileName: {
         type: String,
         default: '导出数据'
+      },
+      btnType: {
+        type: String,
+        default: 'success'
+      },
+      styleObj: {
+        type: Object,
+        default: {
+          marginLeft: '12px'
+        }
       }
     },
     methods: {
       exportExcel () {
         this.$refs.table.exportCsv({
-          filename: this.filename,
+          filename: this.fileName,
           columns: this.titleData,
           data: this.listData
         })

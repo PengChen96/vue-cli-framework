@@ -51,7 +51,7 @@
 
 ### 1. 表格分页 ###
 #### 关键 ####
-```JavaScript
+```html
   // columns: 列表标题；  格式：[{title: '序号', type: 'index'}, {title: '名称', key: 'name'}]
   // data: 列表数据       格式：[{name: '啦啦啦'}]
   <Table stripe :columns="columnsTitle" :data="columnsItems"></Table>
@@ -161,5 +161,33 @@
     }
   }
 </script>
+```
+
+### 2. 导出Csv ###
+#### 代码 ####
+```html
+ <mc-csv :titleData="titleData" :listData="listData"></mc-csv>
+```
+```JavaScript
+ import ExportCsv from '../common/exportCsvComponent.vue'
+  export default {
+    name: 'exportCsv',
+    data () {
+      return {
+        titleData: [
+          {title: '序号', key: 'no'},
+          {title: '名称', key: 'name'}
+        ],
+        listData: [
+          {no: 'no1', name: 'name1'},
+          {no: 'no2', name: 'name2'},
+          {no: 'no3', name: 'name3'}
+        ]
+      }
+    },
+    components: {
+      'mc-csv': ExportCsv
+    }
+  }
 ```
 
