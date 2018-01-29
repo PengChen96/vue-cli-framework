@@ -50,7 +50,7 @@
 ## 组件使用说明 ##
 
 ### 1. 表格分页 ###
-#### 关键 ####
+#### usage ####
 ```html
   // columns: 列表标题；  格式：[{title: '序号', type: 'index'}, {title: '名称', key: 'name'}]
   // data: 列表数据       格式：[{name: '啦啦啦'}]
@@ -164,7 +164,7 @@
 ```
 
 ### 2. 导出Csv ###
-#### 代码 ####
+#### usage ####
 ```html
  <mc-csv :titleData="titleData" :listData="listData"></mc-csv>
 ```
