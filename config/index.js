@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/wsmanagement':{
-        target:'http://192.168.1.97:8001/',
+      '/api':{
+        target:'http://localhost:8001/',
         changeOrigin:true,
         pathRewrite:{
-          '^/wsmanagement':'/wsmanagement'
+          '^/api':'/api'
         }
       }
     },
