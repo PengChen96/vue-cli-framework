@@ -26,10 +26,10 @@
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="breadRoute">
+          <Menu accordion active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="breadRoute">
             <Submenu name="1">
               <template slot="title">
-                <Icon type="ios-navigate"></Icon>
+                <Icon type="ios-home"></Icon>
                 首页
               </template>
               <MenuItem name="首页" @click.native="route('/')">首页</MenuItem>
@@ -37,26 +37,10 @@
             <Submenu name="2">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
-                账号管理
+                示例
               </template>
-              <MenuItem name="账号管理/账号列表" @click.native="route('/adminUserList')">账号列表</MenuItem>
-              <MenuItem name="账号管理/权限管理" @click.native="route('/adminPermission')">权限管理</MenuItem>
-              <MenuItem name="账号管理/角色配置" @click.native="route('/roleConfig')">角色配置</MenuItem>
-            </Submenu>
-            <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                数据统计
-              </template>
-              <MenuItem name="数据统计/充值升级记录" @click.native="route('/rechargeOrder')">充值/升级记录</MenuItem>
-            </Submenu>
-            <Submenu name="4">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Item 4
-              </template>
-              <MenuItem name="4-1">Option 1</MenuItem>
-              <MenuItem name="4-2">Option 2</MenuItem>
+              <MenuItem name="示例/账号列表" @click.native="route('/example/paging')">分页</MenuItem>
+              <MenuItem name="示例/权限管理" @click.native="route('/example/export_csv')">导出Csv</MenuItem>
             </Submenu>
           </Menu>
         </Sider>
