@@ -37,10 +37,18 @@
             <Submenu name="2">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
-                示例
+                基本
               </template>
-              <MenuItem name="示例/账号列表" @click.native="route('/example/paging')">分页</MenuItem>
-              <MenuItem name="示例/权限管理" @click.native="route('/example/export_csv')">导出Csv</MenuItem>
+              <MenuItem name="基本/分页" @click.native="route('/example/paging')">分页</MenuItem>
+              <MenuItem name="基本/导出Csv" @click.native="route('/example/export_csv')">导出Csv</MenuItem>
+            </Submenu>
+            <Submenu name="3">
+              <template slot="title">
+                <Icon type="ios-navigate"></Icon>
+                图表
+              </template>
+              <MenuItem name="图表/折线图" @click.native="route('/example/echarts/basic_line')">折线图</MenuItem>
+              <MenuItem name="图表/饼图" @click.native="route('/example/echarts/basic_pie')">饼图</MenuItem>
             </Submenu>
           </Menu>
         </Sider>
