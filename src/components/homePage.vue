@@ -32,7 +32,7 @@
                 <Icon type="ios-home"></Icon>
                 首页
               </template>
-              <MenuItem name="首页" @click.native="route('/')">首页</MenuItem>
+              <MenuItem name="首页" @click.native="route('/welcome')">首页</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">

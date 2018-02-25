@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from '@/components/login'
 import HomePage from '@/components/homePage'
 import Welcome from '@/components/project/welcome'
 // 例子
@@ -14,10 +15,18 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/',
       component: HomePage,
+      meta: {
+        requireLogin: true
+      },
       children: [
         {
-          path: '/',
+          path: '/welcome',
           name: 'welcome',
           component: Welcome
         },

@@ -24,8 +24,10 @@
       },
       styleObj: {
         type: Object,
-        default: {
-          marginLeft: '12px'
+        default: function () {
+          return {
+            marginLeft: '12px'
+          }
         }
       }
     },
