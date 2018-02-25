@@ -1,8 +1,8 @@
 ### 判断用户是否登录
 
-####1. `router/index.js`
+#### 1. `router/index.js`
 ##### 定义路由的时候配置```meta```字段（设置需要校验的路由）
-```
+```javascript
 routes: [
     {
       path: '/',
@@ -18,9 +18,9 @@ routes: [
 ```
 
 #### 2. `main.js`
-#### 使用 router.beforeEach 注册一个全局前置守卫
+##### 使用 router.beforeEach 注册一个全局前置守卫
 [导航守卫文档](https://router.vuejs.org/zh-cn/advanced/navigation-guards.html)
-```
+```javascript
 router.beforeEach((to, from, next) => {
   let userAccount = store.state.userAccount
   console.log(userAccount)
@@ -37,9 +37,9 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-### 3. `vuex/store.js`
-#### 使用vuex来标识用户是否登录的状态
-```
+#### 3. `vuex/store.js`
+##### 使用vuex来标识用户是否登录的状态
+```javascript
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -58,9 +58,9 @@ export default new Vuex.Store({
 })
 ```
 
-### 4. `login.vue`
-#### 登录的时候改变状态
-```
+#### 4. `login.vue`
+##### 登录的时候改变状态
+``` javascript
 sessionStorage.userAccount = this.formInline.user
 this.$store.commit('setLoginUser', this.formInline.user)
 ```
