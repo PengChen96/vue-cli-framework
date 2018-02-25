@@ -21,6 +21,7 @@
 	|           |-- welcome.vue          // 首页
 	|   |-- router                       // 路由
 	|   |-- util                         // 公共方法 
+	|   |-- vuex                         // 状态管理目录  
 	|   |-- App.vue                      // 页面入口文件
 	|   |-- main.js                      // 程序入口文件，加载各种公共组件
 	|-- static                           // 静态资源
@@ -33,9 +34,9 @@
 
 ## 安装步骤 ##
 
-	git clone xxxx.git  // 把项目克隆到本地
-	cd washerManage     // 进入模板目录
-	npm install         // 安装项目依赖
+	git clone xxxx.git       // 把项目克隆到本地
+	cd vue-cli-framework     // 进入模板目录
+	npm install              // 安装项目依赖
 
 ## 本地开发 ##
 
@@ -187,6 +188,55 @@
     },
     components: {
       'mc-csv': ExportCsv
+    }
+  }
+```
+
+### 3.图表 ###
+#### 折线图usage ####
+```html
+  // title: 图表标题  xdata: 图表x轴  data: 图表数据
+  <mc-basic-line :title="title" :xdata="xdata" :data="data"></mc-basic-line>
+```
+```javascript
+  import BasicLine from '@/components/common/echarts/basicLineComponent'
+  export default {
+    name: '',
+    data () {
+      return {
+        title: '自定义折线图',
+        data: [5, 18, 10, 10, 1, 12, 5],
+        xdata: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      }
+    },
+    components: {
+      'mc-basic-line': BasicLine
+    }
+  }
+```
+#### 饼图usage ####
+```html
+  // title: 图表标题  data: 图表数据
+  <mc-basic-pie :title="title" :data="data"></mc-basic-pie>
+```
+```javascript
+  import BasicPie from '@/components/common/echarts/basicPieComponent'
+  export default {
+    name: '',
+    data () {
+      return {
+        title: '自定义饼图',
+        data: [
+          {value: 1, name: 'aaa'},
+          {value: 2, name: 'bbb'},
+          {value: 3, name: 'ccc'},
+          {value: 4, name: 'ddd'},
+          {value: 5, name: 'eee'}
+        ]
+      }
+    },
+    components: {
+      'mc-basic-pie': BasicPie
     }
   }
 ```

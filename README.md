@@ -4,7 +4,7 @@
 
 > [文档说明](https://github.com/PengChen96/vue-cli-framework/blob/master/read.md)
 
-> [判断用户是否登录](https://github.com/PengChen96/vue-cli-framework/blob/master/zmd/login.md)
+> [用户是否登录功能实现](https://github.com/PengChen96/vue-cli-framework/blob/master/zmd/login.md)
 
 
 ## Build Setup
