@@ -50,9 +50,12 @@
 
 ## 安装步骤 ##
 ``` bash
-git clone https://github.com/PengChen96/vue-cli-framework.git       // 把项目克隆到本地
-cd vue-cli-framework     // 进入模板目录
-npm install              // 安装项目依赖
+# 把项目克隆到本地
+git clone https://github.com/PengChen96/vue-cli-framework.git  
+# 进入模板目录
+cd vue-cli-framework     
+# 安装项目依赖
+npm install              
 # npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver 
 ```
 
