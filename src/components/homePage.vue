@@ -6,8 +6,8 @@
           <div class="layout-logo"></div>
           <div class="layout-nav">
             <MenuItem name="1">
-              <Icon type="ios-navigate"></Icon>
-              Item 1
+              <Icon type="ios-person"></Icon>
+              {{userAccount}}
             </MenuItem>
             <MenuItem name="2">
               <Icon type="ios-keypad"></Icon>
@@ -17,9 +17,9 @@
               <Icon type="ios-analytics"></Icon>
               Item 3
             </MenuItem>
-            <MenuItem name="4">
-              <Icon type="ios-paper"></Icon>
-              Item 4
+            <MenuItem name="4" @click.native="logOut()">
+              <Icon type="power"></Icon>
+              注销
             </MenuItem>
           </div>
         </Menu>
@@ -34,7 +34,7 @@
               </template>
               <MenuItem name="首页" @click.native="route('/welcome')">首页</MenuItem>
             </Submenu>
-            <Submenu name="2">
+            <Submenu name="2" v-hasPermission="'admin'">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
                 基本
@@ -42,7 +42,7 @@
               <MenuItem name="基本/分页" @click.native="route('/example/paging')">分页</MenuItem>
               <MenuItem name="基本/导出Csv" @click.native="route('/example/export_csv')">导出Csv</MenuItem>
             </Submenu>
-            <Submenu name="3">
+            <Submenu name="3" v-hasPermission="'admin'">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
                 图表
@@ -75,7 +75,8 @@
     name: 'homePage',
     data () {
       return {
-        breadcrumb: ['清衣舍管理后台']    // 面包屑导航
+        breadcrumb: ['清衣舍管理后台'],    // 面包屑导航
+        userAccount: sessionStorage.userAccount    // 用户
       }
     },
     methods: {
@@ -84,6 +85,12 @@
       },
       breadRoute: function (name) {
         this.breadcrumb = name.split('/')
+      },
+      // 注销
+      logOut: function () {
+        sessionStorage.removeItem('userAccount')
+        sessionStorage.removeItem('permissions')
+        this.$router.push('/')
       }
     }
   }

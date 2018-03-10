@@ -16,6 +16,7 @@
     </Form>
 </template>
 <script type="text/ecmascript-6">
+import { getPermissionList } from '@/api/permissionApi.js'
 export default {
   data () {
     return {
@@ -25,11 +26,10 @@ export default {
       },
       ruleInline: {
         user: [
-          { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+          { required: true, message: '请输入用户名.', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-          { type: 'string', min: 1, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+          { required: true, message: '请输入密码.', trigger: 'blur' }
         ]
       }
     }
@@ -38,11 +38,20 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('登录成功！')
           if (this.formInline.user === this.formInline.password) {
+            this.$Message.success('登录成功！')
+            // 角色登录
             sessionStorage.userAccount = this.formInline.user
             this.$store.commit('setLoginUser', this.formInline.user)
+            // 获取角色权限
+            getPermissionList(this.formInline.user).then(body => {
+              console.log(body)
+              sessionStorage.permissions = body.permissions
+              this.$store.commit('setPermissions', body.permissions)
+            })
             this.$router.push('/welcome')
+          } else {
+            this.$Message.error('账号与密码组合错误！')
           }
         } else {
           this.$Message.error('登录失败!')

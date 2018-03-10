@@ -8,6 +8,8 @@ import VueResource from 'vue-resource'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import Highlight from './util/c-hightlight.js'
+// require('./mock/testMock.js')
+require('./mock/permissionMock.js')
 
 Vue.use(VueResource)
 Vue.use(iView)
@@ -15,18 +17,27 @@ Vue.use(Highlight)
 
 Vue.config.productionTip = false
 
-router.beforeEach((to, from, next) => {
-  let userAccount = store.state.userAccount
-  console.log(userAccount)
-  if (to.matched.some(record => record.meta.requireLogin)) {
-    if (userAccount === '-1') {
-      next()
-      router.push({path: '/', query: { redirect: to.fullPath }})
-    } else {
-      next()
-    }
+// Vue.http.get('/testMock').then(res => {
+//  console.log(res)
+// })
+Vue.prototype.$_hasPermission = function (per) {
+  let permissions = store.state.permissions.toString()
+  // console.log(permissions)
+  // 权限不存在 return false
+  if (permissions.indexOf(per) === -1 && permissions.length > 0) {
+    return false
   } else {
-    next()
+    return true
+  }
+}
+Vue.directive('hasPermission', {
+  bind: function (el, binding) {
+    let isShow = Vue.prototype.$_hasPermission(binding.value)
+    console.log(el)
+    console.log(isShow)
+    if (!isShow) {
+      el.parentNode.removeChild(el)
+    }
   }
 })
 
