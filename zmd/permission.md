@@ -5,7 +5,7 @@
 
 #### 1. `login.vue`
 ##### 用户登录成功后，去请求接口获取权限列表，保存到sessionStorage中，然后跳转页面；
-```
+```javascript
 // 获取角色权限
 getPermissionList(this.formInline.user).then(body => {
   console.log(body)
@@ -18,7 +18,7 @@ getPermissionList(this.formInline.user).then(body => {
 
 #### 2. `main.js`
 ##### 如果配的权限存在于后台返回的权限列表中就显示，否则就把相关DOM移除；
-```
+```javascript
 Vue.prototype.$_hasPermission = function (per) {
   let permissions = store.state.permissions.toString()
   // 权限不存在 return false
@@ -39,10 +39,10 @@ Vue.directive('hasPermission', {
 ```
 
 #### 3. 使用
-```
+```html
 <div v-hasPermission="'admin'"></div>
 ```
 或
-```
+```html
 <div v-if="$_hasPermission('admin')"></div>
 ```

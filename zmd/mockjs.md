@@ -1,14 +1,14 @@
 ### MockJs使用
 
 #### 0. 安装
-```
+```bash
 npm install mockjs --save
 ```
 
 #### 1. `mock/testMock.js`
 ##### mock数据
 
-```
+```javascript
 import Mock from 'mockjs'
 
 Mock.mock('/testMock', {
@@ -23,11 +23,11 @@ Mock.mock('/testMock', {
 
 #### 2. `main.js`
 ##### 引入
-```
+```javascript
 require('./mock/testMock.js')
 ```
 ##### 使用
-```
+```javascript
 Vue.http.get('/testMock').then(res => {
   console.log(res)
 })
