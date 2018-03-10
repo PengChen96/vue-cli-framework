@@ -64,4 +64,6 @@
 
 > [用户是否登录功能实现](https://github.com/PengChen96/vue-cli-framework/blob/master/zmd/login.md)
 
+> [前端权限控制](https://github.com/PengChen96/vue-cli-framework/blob/master/zmd/permission.md)
+
 > [基本组件](https://github.com/PengChen96/vue-cli-framework/blob/master/zmd/basicUse.md)
