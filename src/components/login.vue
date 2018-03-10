@@ -48,8 +48,9 @@ export default {
               console.log(body)
               sessionStorage.permissions = body.permissions
               this.$store.commit('setPermissions', body.permissions)
+            }).then(res => {
+              this.$router.push('/welcome')
             })
-            this.$router.push('/welcome')
           } else {
             this.$Message.error('账号与密码组合错误！')
           }
