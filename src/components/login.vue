@@ -17,6 +17,8 @@
           <Button type="primary" @click="handleSubmit('formInline')" long>登录</Button>
         </FormItem>
       </Form>
+      <span class="sp">管理员账号: admin admin</span>&nbsp;&nbsp;
+      <span class="sp">账号密码一致即可登录</span>
     </div>
   </div>
 </template>
@@ -89,6 +91,9 @@ export default {
       border:1px solid #eee;
       border-radius: 4px;
       box-shadow: 4px 6px 10px 1px #bbb;
+      .sp{
+        color: #aaa;
+      }
     }
   }
 </style>
